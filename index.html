@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="STUDIO SVETLO - Analoges Filmentwicklungs- & Fotolabor im Unterwerk Selnau, Zürich. Eine interaktive 3D-Bewerbung." />
+    <title>STUDIO SVETLO — Unterwerk Selnau, Zürich</title>
+    <!-- Fonts for industrial retro aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&family=VT323&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body class="booting off">
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Ambient Dust / Noise Overlay -->
+    <div class="noise-overlay"></div>
+    <div class="vignette-overlay"></div>
+
+    <!-- Minimalist Blueprint HUD Overlay for 3D Projects -->
+    <div id="blueprint-hud"></div>
+
+    <!-- ============ HERO STAGE (100vh) ============ -->
+    <header class="stage">
+      <div class="title-block reveal">
+        <h1 class="title">Studio&nbsp;Svetlo</h1>
+        <div class="subtitle">ENTWICKLUNGSLABOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANALOG &amp; ARCHIV</div>
+      </div>
+
+      <div class="scrollcue reveal">
+        <span>&darr; &nbsp; EINTRETEN</span>
+      </div>
+    </header>
+
+    <!-- ============ MAIN CONTENT (SCROLLABLE BELOW HERO) ============ -->
+    <main class="content-container reveal">
+      <!-- Section 1: Intro / Transition -->
+      <section id="section-concept">
+        <div class="eyebrow">// Du warst gerade drin</div>
+        <p class="lead">Der digitale Raum oben macht unsere Vision für das Studio Svetlo an der Sihl erlebbar.</p>
+        <p class="copy">Wir wollen ein Fotoentwicklungslabor aufbauen, das dem ganzen Haus offensteht: ein Ort für gemeinsame Aktivitäten, an dem wir das Handwerk des Entwickelns weitergeben. Während wir das Analoge entwickeln, entwickeln wir zugleich ein Archiv des Hauses, das die Zeit überdauern soll. Es geht uns dabei um Gemeinschaft, um Austausch und um Raum für interdisziplinäre Kollaborationen.</p>
+      </section>
+
+      <!-- Section 2: Team / Pillars -->
+      <section id="section-pillars">
+        <div class="eyebrow">// Vier Hände</div>
+        <div class="pillars">
+          <div class="pillar">
+            <span class="role">Analog</span>
+            <h3>Belichten &amp; Entwickeln</h3>
+            <p>Analoge Fotografie und Film, Handentwicklung, physischer Druck. Der Raum, das Licht, das Negativ. Jakob Harder, Architekt &amp; Fotograf.</p>
+          </div>
+          <div class="pillar">
+            <span class="role">Archiv &middot; Systems</span>
+            <h3>Erfassen &amp; Bewahren</h3>
+            <p>Digitalisierung, Katalogisierung, Infrastruktur. Aus belichtetem Material wird ein digitales Gedächtnis. Robin Kordik, Wirtschaftsinformatiker.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Work / Gallery -->
+      <section id="section-work">
+        <div class="eyebrow">// Werk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jakob Harder</div>
+        <div class="gallery">
+          <figure class="shot"><img src="work/work-1.jpg" loading="lazy" alt="Verkäufer mit weisser Kapuze und pinken Handschuhen in einem vollen Früchteladen." /></figure>
+          <figure class="shot"><img src="work/work-6.jpg" loading="lazy" alt="Mann trägt ein ganzes Schwein über der Schulter durch eine Strasse in Chinatown." /></figure>
+          <figure class="shot"><img src="work/work-4.jpg" loading="lazy" alt="Frau in Rosa neben einem Schild mit der Aufschrift TAKE YOUR TIME, Abendlicht." /></figure>
+          <figure class="shot"><img src="work/work-5.jpg" loading="lazy" alt="Strassenkünstler in rotem Paillettenkostüm in einer U-Bahn-Station in New York." /></figure>
+          <figure class="shot"><img src="work/work-2.jpg" loading="lazy" alt="Bauarbeiter mit pinken Helmen an einer Baustelle." /></figure>
+          <figure class="shot"><img src="work/work-3.jpg" loading="lazy" alt="Blumen- und Teddybär-Verkäufer sitzt in einem Van an einer Baustelleneinfahrt." /></figure>
+        </div>
+      </section>
+
+      <!-- Section: The Archive -->
+      <section id="section-archive">
+        <div class="eyebrow">// Das Archiv, das bleibt</div>
+        <p class="lead">Ein Labor entwickelt Bilder. Ein Archiv sorgt dafür, dass sie bleiben.</p>
+        <p class="copy">Jede Rolle, die hier durch die Bäder geht, wird gescannt, geprüft und katalogisiert. Aus belichtetem Silber wird ein digitales Gedächtnis: kein loser Stapel Negative in einer Kiste, sondern ein Index, den in zehn Jahren noch jemand öffnen kann. Analog entsteht das Bild, digital überlebt es. Das ist der Teil, der aus einer Dunkelkammer einen Ort mit Erinnerung macht, und die technische Basis, die dem ganzen Haus offen ist.</p>
+        <div class="archive-index">
+          <div class="ai-head"><span>svetlo.index</span><span>41 Rollen · 1.284 Negative · online</span></div>
+          <div class="ai-row"><span>HP5-0426</span><span>36 Frames</span><span>Turbinenhalle</span><span>archiviert</span></div>
+          <div class="ai-row"><span>TRI-X-0411</span><span>24 Frames</span><span>Unterwerk Selnau</span><span>archiviert</span></div>
+          <div class="ai-row"><span>NEOPAN-0388</span><span>12 Frames</span><span>Untergeschoss</span><span>archiviert</span></div>
+          <div class="ai-row"><span>PORTRA-0350</span><span>36 Frames</span><span>Turbinenhalle</span><span>in bearbeitung</span></div>
+        </div>
+      </section>
+
+      <!-- Section 3: Live Archive Daemon Terminal -->
+      <section id="section-daemon">
+        <div class="eyebrow">// Live &mdash; archive daemon</div>
+        <div class="terminal embedded-terminal">
+          <div class="bar">
+            <span class="dot"></span> svetlo@selnau &mdash; /archive
+          </div>
+          <div class="term-line" id="term-log"></div>
+        </div>
+      </section>
+      
+      <!-- Footer -->
+      <footer>
+        <div>STUDIO SVETLO<br/>Unterwerk Selnau &middot; Zürich</div>
+        <div>KONTAKT<br/><a href="mailto:hallo@example.ch">hallo@example.ch</a></div>
+        <div>&copy; 2026<br/>Klicke die Hängelampe zum Schalten.</div>
+      </footer>
+    </main>
+
+    <!-- Minimalistic audio toggle overlay in the bottom left -->
+    <button id="audio-toggle-btn" class="minimal-audio-btn">[AUDIO: OFF]</button>
+
+    <!-- Load main script -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,519 @@
+/* STUDIO LUCE - Minimalist PBR 3D & Responsive Editorial Layout */
+:root {
+  --void: #0a0908;        /* near-black, warm */
+  --void-2: #100d0a;
+  --ink: #e9e2d4;         /* warm off-white text */
+  --ink-dim: #8a8375;
+  --amber: #ffb257;       /* tungsten light */
+  --amber-hot: #ffd79a;
+  --amber-glow: rgba(255, 150, 50, .55);
+  --line: #241f18;
+  --safelight: #d5342a;   /* darkroom red */
+  --font-mono: "Share Tech Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+  --font-slab: "Courier Prime", Courier, monospace;
+  --warning-red: #ff3333;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--void);
+  font-family: var(--font-slab);
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 3D WebGL Canvas */
+#webgl-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Film Grain Overlay */
+.noise-overlay {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  mix-blend-mode: screen;
+  animation: grainshift 0.45s steps(3) infinite;
+}
+
+@keyframes grainshift {
+  0% { transform: translate(0,0) } 
+  33% { transform: translate(-3%,2%) } 
+  66% { transform: translate(2%,-3%) } 
+  100% { transform: translate(0,0) }
+}
+
+.vignette-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+  pointer-events: none;
+  z-index: 998;
+}
+
+/* ============ HERO STAGE (100vh) ============ */
+.stage {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 4;
+}
+
+.title-block {
+  text-align: center;
+  pointer-events: none;
+}
+
+.title {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: clamp(3.2rem, 10vw, 8rem);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  line-height: 1;
+  text-shadow: 0 2px 34px rgba(0, 0, 0, 0.55);
+}
+
+.subtitle {
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.56rem, 1.3vw, 0.76rem);
+  font-weight: 400;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  text-transform: uppercase;
+  color: rgba(210, 204, 188, 0.55);
+}
+
+/* body copy + archive index */
+.copy {
+  max-width: 48ch;
+  margin-top: 1.5rem;
+  font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+  line-height: 1.85;
+  color: var(--ink-dim);
+}
+
+/* work gallery — the photographs are the star */
+.gallery {
+  margin-top: 2.8rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.shot {
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--line);
+}
+.shot img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  filter: saturate(0.96) contrast(1.02);
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.7s ease;
+}
+.shot:hover img {
+  transform: scale(1.035);
+  filter: saturate(1.02) contrast(1.05);
+}
+@media (max-width: 600px) {
+  .gallery { grid-template-columns: 1fr; }
+}
+.archive-index {
+  margin-top: 2.6rem;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+}
+.archive-index .ai-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.6rem;
+}
+.archive-index .ai-row {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr 1.4fr 1fr;
+  gap: 1rem;
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-dim);
+}
+.archive-index .ai-row:last-child { border-bottom: none; }
+.archive-index .ai-row span:last-child {
+  text-align: right;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+}
+@media (max-width: 600px) {
+  .archive-index { font-size: 0.6rem; }
+  .archive-index .ai-row { grid-template-columns: 1fr 1fr; }
+  .archive-index .ai-row span:nth-child(3) { display: none; }
+}
+
+.scrollcue {
+  position: absolute;
+  bottom: 4vh;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.62rem;
+  letter-spacing: 0.4em;
+  color: var(--ink-dim);
+  pointer-events: none;
+}
+.scrollcue span {
+  display: inline-block;
+  animation: bob 2.4s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* HUD Instructions */
+#instructions-panel {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 10;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  color: rgba(233, 226, 212, 0.45);
+  background: rgba(10, 9, 8, 0.7);
+  padding: 10px 14px;
+  border-left: 2px solid var(--amber);
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  text-transform: uppercase;
+  transition: opacity 0.4s ease;
+}
+#instructions-panel div {
+  margin-bottom: 4px;
+}
+#instructions-panel div:last-child {
+  margin-bottom: 0;
+}
+#instructions-panel.scrolled-out {
+  opacity: 0;
+}
+
+/* ============ MINIMALIST BLUEPRINT HUD OVERLAY ============ */
+#blueprint-hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 45;
+}
+
+.blueprint-node {
+  position: absolute;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  transition: opacity 0.3s ease;
+}
+
+.blueprint-anchor {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 8px var(--amber), 0 0 16px var(--amber-glow);
+  transform: translate(-50%, -50%);
+}
+
+.blueprint-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  background: var(--amber);
+  box-shadow: 0 0 4px var(--amber-glow);
+  transform-origin: left center;
+  opacity: 0.6;
+}
+
+.blueprint-label {
+  position: absolute;
+  background: rgba(10, 9, 8, 0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--amber);
+  padding: 12px 16px;
+  width: 280px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transform: translate(35px, -50%) scale(0.95);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blueprint-label.visible {
+  opacity: 1;
+  transform: translate(45px, -50%) scale(1);
+}
+
+.hud-title {
+  font-weight: bold;
+  color: var(--amber);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.hud-text {
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: var(--ink-dim);
+}
+
+/* ============ DYNAMIC AUDIO CONTROL BUTTON ============ */
+.minimal-audio-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  z-index: 100;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-dim);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+.minimal-audio-btn:hover {
+  color: var(--amber);
+  text-shadow: 0 0 6px var(--amber-glow);
+}
+.minimal-audio-btn.active {
+  color: var(--amber);
+}
+.minimal-audio-btn.scrolled-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ============ REVEAL & FADE EFFECTS FOR LIT STATE ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+body.lit .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+body.off .reveal {
+  opacity: 0.12 !important;
+  pointer-events: none !important;
+  transform: none !important;
+}
+
+body.booting .reveal {
+  opacity: 0.12 !important;
+  pointer-events: none !important;
+}
+
+/* ============ EDITORIAL SECTIONS (BELOW HERO) ============ */
+.content-container {
+  position: relative;
+  z-index: 5;
+  background: #080807;
+  /* the WebGL rAF loop resets CSS transitions every frame, so the reveal-fade
+     never completes and leaves the content stuck semi-transparent. Kill the
+     transition entirely so the solid opacity applies. */
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+main section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 11vh 6vw;
+  border-top: 1px solid var(--line);
+}
+
+.eyebrow {
+  font-size: 0.62rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1.6rem;
+}
+
+.lead {
+  font-size: clamp(1.05rem, 2.4vw, 1.6rem);
+  line-height: 1.55;
+  max-width: 46ch;
+  color: var(--ink);
+}
+.lead .dim {
+  color: var(--ink-dim);
+}
+
+/* Pillars grid columns */
+.pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.pillar {
+  padding: 2.4rem 2rem;
+  border: 1px solid var(--line);
+}
+.pillar:first-child {
+  border-right: none;
+}
+
+.pillar h3 {
+  font-size: 0.9rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+  color: var(--ink);
+}
+
+.pillar .role {
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+  display: block;
+}
+
+.pillar p {
+  font-size: 0.85rem;
+  color: var(--ink-dim);
+  line-height: 1.7;
+}
+
+@media (max-width: 680px) {
+  .pillars {
+    grid-template-columns: 1fr;
+  }
+  .pillar:first-child {
+    border-right: 1px solid var(--line);
+    border-bottom: none;
+  }
+}
+
+/* ============ EMBEDDED RETRO TERMINAL IN WALL ============ */
+.terminal {
+  background: #070605;
+  border: 1px solid var(--line);
+  padding: 1.4rem 1.6rem;
+  font-size: 0.8rem;
+  color: var(--ink-dim);
+  font-family: var(--font-mono);
+  min-height: 240px;
+  margin-top: 1rem;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.85);
+}
+
+.terminal .bar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: var(--ink-dim);
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.terminal .dot {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ink-dim);
+  border-radius: 50%;
+}
+
+.term-line {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+.term-line .ok {
+  color: var(--amber);
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  background: var(--amber);
+  vertical-align: -2px;
+  animation: cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+  50% { opacity: 0; }
+}
+
+/* Footer styling */
+footer {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 9vh 6vw 12vh;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+footer a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--amber);
+}
+footer a:hover {
+  color: var(--amber);
+}
