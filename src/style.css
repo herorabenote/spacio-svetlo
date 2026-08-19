@@ -155,13 +155,39 @@ body {
   opacity: 0.1;
 }
 .shot.dev img {
-  animation: develop 3.6s cubic-bezier(0.25, 0.6, 0.2, 1) forwards;
+  animation: develop 6.5s cubic-bezier(0.25, 0.55, 0.2, 1) forwards;
 }
 @keyframes develop {
   0%   { filter: brightness(2.3) contrast(0.16) saturate(0) sepia(0.22); opacity: 0.1; }
   25%  { filter: brightness(1.85) contrast(0.35) saturate(0.15) sepia(0.2); opacity: 0.45; }
   55%  { filter: brightness(1.28) contrast(0.72) saturate(0.55) sepia(0.1); opacity: 0.85; }
   100% { filter: brightness(1) contrast(1.02) saturate(0.96) sepia(0); opacity: 1; }
+}
+
+/* Bologna zine — the one constant element, wide plaque under the gallery.
+   Flips positive <-> negative every second GIF loop (loop = 5.85s). */
+.zine {
+  margin-top: 12px;
+  width: 100%;
+  background: #f2eef0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 26px 0;
+  animation: zineNeg 11.7s linear infinite;
+}
+.zine img {
+  display: block;
+  width: 62%;
+  max-width: 600px;
+  height: auto;
+}
+@keyframes zineNeg {
+  0%, 49.99% { filter: invert(0); }
+  50%, 100%  { filter: invert(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zine { animation: none; }
 }
 .archive-index {
   margin-top: 2.6rem;
