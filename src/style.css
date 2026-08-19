@@ -167,27 +167,46 @@ body {
 /* Bologna zine — the one constant element, wide plaque under the gallery.
    Flips positive <-> negative every second GIF loop (loop = 5.85s). */
 .zine {
+  position: relative;
   margin-top: 12px;
   width: 100%;
-  background: #f2eef0;
+  min-height: 480px;
+  padding: 44px 4vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 26px 0;
-  animation: zineNeg 35.1s linear infinite;
+  overflow: hidden;
+  /* Blend background photo with a heavy vignette */
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(16, 14, 11, 0.25) 0%, rgba(16, 14, 11, 0.94) 88%),
+    url('/work/zine-bg.jpg');
+  background-size: 102% 102%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  /* Dual animations: flips negative-positive + slow breathing shader pan */
+  animation: 
+    zineNeg 35.1s linear infinite,
+    zinePan 20s ease-in-out infinite;
 }
 .zine img {
   display: block;
-  width: 62%;
-  max-width: 600px;
+  width: 46%;
+  max-width: 470px;
   height: auto;
   cursor: default;
   -webkit-user-drag: none;
   user-select: none;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.65);
 }
 @keyframes zineNeg {
   0%, 49.99% { filter: invert(0); }
   50%, 100%  { filter: invert(1); }
+}
+@keyframes zinePan {
+  0% { background-position: 50% 47%; background-size: 102% 102%; }
+  50% { background-position: 50% 53%; background-size: 108% 108%; }
+  100% { background-position: 50% 47%; background-size: 102% 102%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .zine { animation: none; }
