@@ -166,28 +166,73 @@ body {
 
 /* Bologna zine — the one constant element, wide plaque under the gallery.
    Flips positive <-> negative every second GIF loop (loop = 5.85s). */
+/* The zine lies on the darkroom bench, cut film scraps scattered around it.
+   The zine (GIF) flips positive <-> negative each loop (loop = 5.85s). */
 .zine {
+  position: relative;
   margin-top: 12px;
   width: 100%;
-  background: #f2eef0;
+  min-height: 470px;
+  padding: 44px 4vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 26px 0;
-  animation: zineNeg 11.7s linear infinite;
+  overflow: hidden;
+  background:
+    radial-gradient(55% 78% at 50% 46%, rgba(74,62,44,0.30), transparent 72%),
+    #15120d;
 }
-.zine img {
+.zine::before { /* matte grain of the bench surface */
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+}
+.zine .print {
+  position: relative;
+  z-index: 3;
   display: block;
-  width: 62%;
-  max-width: 600px;
+  width: 46%;
+  max-width: 470px;
   height: auto;
+  box-shadow: 0 20px 44px rgba(0,0,0,0.62);
+  animation: zineNeg 11.7s linear infinite;
 }
 @keyframes zineNeg {
   0%, 49.99% { filter: invert(0); }
   50%, 100%  { filter: invert(1); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .zine { animation: none; }
+/* scattered 35mm film scraps */
+.zine .scrap {
+  position: absolute;
+  height: 28px;
+  background: #100f0b;
+  border-radius: 2px;
+  box-shadow: 0 9px 18px rgba(0,0,0,0.55);
+  z-index: 1;
+}
+.zine .scrap::before,
+.zine .scrap::after {
+  content: "";
+  position: absolute; left: 4px; right: 4px; height: 5px;
+  background: repeating-linear-gradient(90deg, #cfcdbe 0 4px, transparent 4px 12px);
+  opacity: 0.8;
+}
+.zine .scrap::before { top: 4px; }
+.zine .scrap::after { bottom: 4px; }
+.zine .scrap.s1 { width: 175px; left: 4%;  top: 14%;    transform: rotate(-9deg); }
+.zine .scrap.s2 { width: 120px; left: 11%; bottom: 12%; transform: rotate(7deg); }
+.zine .scrap.s3 { width: 205px; right: 3%; top: 11%;    transform: rotate(6deg); }
+.zine .scrap.s4 { width: 130px; right: 8%; bottom: 15%; transform: rotate(-12deg); }
+.zine .scrap.s5 { width: 90px;  left: 27%; top: 6%;     transform: rotate(14deg); z-index: 4; }
+.zine .scrap.s6 { width: 105px; right: 25%; bottom: 6%; transform: rotate(-6deg); z-index: 4; }
+.zine .scrap.s7 { width: 150px; left: 2%;  top: 48%;    transform: rotate(3deg); }
+@media (prefers-reduced-motion: reduce) { .zine .print { animation: none; } }
+@media (max-width: 600px) {
+  .zine { min-height: 360px; }
+  .zine .print { width: 64%; }
+  .zine .scrap.s3, .zine .scrap.s7 { display: none; }
 }
 .archive-index {
   margin-top: 2.6rem;
