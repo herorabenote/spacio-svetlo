@@ -178,15 +178,20 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  /* Dark rusted iron/slate PBR plate simulation */
   background:
-    radial-gradient(55% 78% at 50% 46%, rgba(74,62,44,0.30), transparent 72%),
-    #15120d;
+    radial-gradient(circle at 50% 50%, transparent 35%, rgba(0,0,0,0.85) 100%),
+    radial-gradient(circle at 15% 25%, rgba(85, 48, 22, 0.16) 0%, transparent 65%),
+    radial-gradient(circle at 85% 75%, rgba(70, 40, 18, 0.12) 0%, transparent 55%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.003) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,0.08) 0 2px, transparent 2px 120px),
+    #13100e;
 }
 .zine::before { /* matte grain of the bench surface */
   content: "";
   position: absolute; inset: 0; pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-  opacity: 0.07;
+  opacity: 0.08;
   mix-blend-mode: overlay;
 }
 .zine .print {
@@ -196,31 +201,50 @@ body {
   width: 46%;
   max-width: 470px;
   height: auto;
-  box-shadow: 0 20px 44px rgba(0,0,0,0.62);
+  box-shadow: 0 22px 50px rgba(0,0,0,0.7);
   animation: zineNeg 11.7s linear infinite;
 }
 @keyframes zineNeg {
   0%, 49.99% { filter: invert(0); }
   50%, 100%  { filter: invert(1); }
 }
-/* scattered 35mm film scraps */
+/* scattered 35mm film scraps - completely generated via multi-layered gradients */
 .zine .scrap {
   position: absolute;
-  height: 28px;
-  background: #100f0b;
-  border-radius: 2px;
-  box-shadow: 0 9px 18px rgba(0,0,0,0.55);
+  height: 36px;
+  background: 
+    /* Top sprocket holes (transparent, exposing dark bench beneath) */
+    repeating-linear-gradient(90deg, transparent 0 6px, #1a1612 6px 14px),
+    /* Bottom sprocket holes (transparent, exposing dark bench beneath) */
+    repeating-linear-gradient(90deg, transparent 0 6px, #1a1612 6px 14px),
+    /* Film frame divider lines (dark vertical lines) */
+    repeating-linear-gradient(90deg, #0d0a07 0 2px, transparent 2px 42px),
+    /* Semi-transparent amber-brown film frames (exposed photo negative area) */
+    repeating-linear-gradient(90deg, rgba(74, 52, 34, 0.35) 0 40px, transparent 40px 42px),
+    /* Solid backing base */
+    linear-gradient(#1a1612, #1a1612);
+  background-size: 
+    14px 6px,   /* sprocket size */
+    14px 6px,
+    42px 24px,  /* frame negative size */
+    42px 24px,
+    100% 24px;
+  background-position: 
+    0 3px,      /* top sprockets */
+    0 27px,     /* bottom sprockets */
+    0 6px,      /* frame dividers */
+    1px 6px,    /* negatives */
+    0 6px;      /* solid backing base */
+  background-repeat: 
+    repeat-x,
+    repeat-x,
+    repeat-x,
+    repeat-x,
+    no-repeat;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.75);
+  border-radius: 1px;
   z-index: 1;
 }
-.zine .scrap::before,
-.zine .scrap::after {
-  content: "";
-  position: absolute; left: 4px; right: 4px; height: 5px;
-  background: repeating-linear-gradient(90deg, #cfcdbe 0 4px, transparent 4px 12px);
-  opacity: 0.8;
-}
-.zine .scrap::before { top: 4px; }
-.zine .scrap::after { bottom: 4px; }
 .zine .scrap.s1 { width: 175px; left: 4%;  top: 14%;    transform: rotate(-9deg); }
 .zine .scrap.s2 { width: 120px; left: 11%; bottom: 12%; transform: rotate(7deg); }
 .zine .scrap.s3 { width: 205px; right: 3%; top: 11%;    transform: rotate(6deg); }
