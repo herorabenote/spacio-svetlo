@@ -207,6 +207,19 @@ function setupEventListeners() {
       togglePower();
     }
   });
+
+  // Mute tab when switching tabs or minimizing window
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (audio.ctx && audio.ctx.state === 'running') {
+        audio.ctx.suspend();
+      }
+    } else {
+      if (audio.ctx && audio.ctx.state === 'suspended' && !state.audioMuted) {
+        audio.ctx.resume();
+      }
+    }
+  });
 }
 
 function onWindowResize() {

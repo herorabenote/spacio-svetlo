@@ -225,6 +225,7 @@ export class DarkroomAudio {
 
   playDrip() {
     if (this.isMuted || !this.ctx || Math.random() > 0.65) return;
+    if (window.scrollY > 300) return; // Don't drip below the fold
 
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
