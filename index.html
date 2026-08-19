@@ -109,5 +109,27 @@
 
     <!-- Load main script -->
     <script type="module" src="/src/main.js"></script>
+    <script>
+      // Photo development: each gallery print emerges from the tray when scrolled into view
+      (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var shots = document.querySelectorAll('.gallery .shot');
+        if (!shots.length) return;
+        shots.forEach(function (s) { s.classList.add('will-dev'); });
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            var s = e.target;
+            io.unobserve(s);
+            s.classList.add('dev');
+            var img = s.querySelector('img');
+            if (img) img.addEventListener('animationend', function () {
+              s.classList.remove('will-dev', 'dev'); // revert to normal state so hover works
+            }, { once: true });
+          });
+        }, { threshold: 0.25 });
+        shots.forEach(function (s) { io.observe(s); });
+      })();
+    </script>
   </body>
 </html>

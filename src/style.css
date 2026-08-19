@@ -148,6 +148,21 @@ body {
 @media (max-width: 600px) {
   .gallery { grid-template-columns: 1fr; }
 }
+
+/* photo "development" — the print emerges from the tray like in the darkroom */
+.shot.will-dev img {
+  filter: brightness(2.3) contrast(0.16) saturate(0) sepia(0.22);
+  opacity: 0.1;
+}
+.shot.dev img {
+  animation: develop 3.6s cubic-bezier(0.25, 0.6, 0.2, 1) forwards;
+}
+@keyframes develop {
+  0%   { filter: brightness(2.3) contrast(0.16) saturate(0) sepia(0.22); opacity: 0.1; }
+  25%  { filter: brightness(1.85) contrast(0.35) saturate(0.15) sepia(0.2); opacity: 0.45; }
+  55%  { filter: brightness(1.28) contrast(0.72) saturate(0.55) sepia(0.1); opacity: 0.85; }
+  100% { filter: brightness(1) contrast(1.02) saturate(0.96) sepia(0); opacity: 1; }
+}
 .archive-index {
   margin-top: 2.6rem;
   font-family: var(--font-mono);
