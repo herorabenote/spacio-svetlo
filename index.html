@@ -114,25 +114,33 @@
     <!-- Load main script -->
     <script type="module" src="/src/main.js"></script>
     <script>
-      // Photo development: each gallery print emerges from the tray when scrolled into view
+      // Photo development: each gallery print emerges from the tray when scrolled into view.
       (function () {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         var shots = document.querySelectorAll('.gallery .shot');
         if (!shots.length) return;
         shots.forEach(function (s) { s.classList.add('will-dev'); });
+        function develop(s) {
+          if (s.dataset.dev) return;
+          s.dataset.dev = '1';
+          s.classList.add('dev');
+          var img = s.querySelector('img');
+          if (img) img.addEventListener('animationend', function () {
+            s.classList.remove('will-dev', 'dev'); // revert to normal state so hover works
+          }, { once: true });
+        }
         var io = new IntersectionObserver(function (entries) {
           entries.forEach(function (e) {
             if (!e.isIntersecting) return;
-            var s = e.target;
-            io.unobserve(s);
-            s.classList.add('dev');
-            var img = s.querySelector('img');
-            if (img) img.addEventListener('animationend', function () {
-              s.classList.remove('will-dev', 'dev'); // revert to normal state so hover works
-            }, { once: true });
+            io.unobserve(e.target);
+            develop(e.target);
           });
-        }, { threshold: 0.25 });
+        }, { threshold: 0.01, rootMargin: '400px 0px' }); // start developing before it enters view
         shots.forEach(function (s) { io.observe(s); });
+        // Safety net: never leave a print stuck invisible.
+        setTimeout(function () {
+          shots.forEach(function (s) { if (!s.dataset.dev) develop(s); });
+        }, 4000);
       })();
     </script>
   </body>
